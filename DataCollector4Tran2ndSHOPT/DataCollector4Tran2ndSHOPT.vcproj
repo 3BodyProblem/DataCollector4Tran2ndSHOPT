@@ -62,7 +62,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="gtestd.lib"
-				OutputFile="D:\ServiceManager\srvunit\DataCollector4Tran2ndSHL1_Port31272\$(ProjectName).dll"
+				OutputFile="D:\ServiceManager\srvunit\DataCollector4Tran2ndSHOPT_Port31274\$(ProjectName).dll"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="../libs/gtest/library_vc9/Debug/"
 				ModuleDefinitionFile="DataCollector4Tran2ndSHOPT.def"
@@ -139,7 +139,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="gtest.lib"
-				OutputFile="D:\ServiceManager\srvunit\DataCollector4Tran2ndSHL1_Port31272\$(ProjectName).dll"
+				OutputFile="D:\ServiceManager\srvunit\DataCollector4Tran2ndSHOPT_Port31274\$(ProjectName).dll"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="../libs/gtest/library_vc9/Release/"
 				ModuleDefinitionFile="DataCollector4Tran2ndSHOPT.def"

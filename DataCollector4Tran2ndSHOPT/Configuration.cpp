@@ -2,7 +2,7 @@
 #include <algorithm>
 #include "Configuration.h"
 #include "Infrastructure/IniFile.h"
-#include "DataCollector4Tran2ndSHL1.h"
+#include "DataCollector4Tran2ndSHOPT.h"
 
 
 HMODULE						g_oModule;
@@ -91,7 +91,7 @@ int Configuration::Initialize()
 	int					nErrCode = 0;
     char				pszTmp[1024] = { 0 };
 
-	m_nMarketID = 1;
+	m_nMarketID = 2;
     ::GetModuleFileName( g_oModule, pszTmp, sizeof(pszTmp) );
     sPath = pszTmp;
     sPath = sPath.substr( 0, sPath.find(".dll") ) + ".ini";

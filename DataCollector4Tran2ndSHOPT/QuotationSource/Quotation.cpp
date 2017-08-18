@@ -4,7 +4,7 @@
 #include "MVPlat.h"
 #include "Quotation.h"
 #include "../Infrastructure/IniFile.h"
-#include "../DataCollector4Tran2ndSHL1.h"
+#include "../DataCollector4Tran2ndSHOPT.h"
 
 
 WorkStatus::WorkStatus()

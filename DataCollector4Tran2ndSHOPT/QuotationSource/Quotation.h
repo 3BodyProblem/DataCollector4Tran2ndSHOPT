@@ -12,7 +12,7 @@
 #include "../Infrastructure/Lock.h"
 #include "../Infrastructure/Thread.h"
 #include "../Infrastructure/DateTime.h"
-#include "../Tran2nd_SHL1_QuoProtocal.h"
+#include "../Tran2nd_SHOPT_QuoProtocal.h"
 
 
 typedef struct

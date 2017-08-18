@@ -4,7 +4,7 @@
 #include <functional>
 #include "Configuration.h"
 #include "UnitTest/UnitTest.h"
-#include "DataCollector4Tran2ndSHL1.h"
+#include "DataCollector4Tran2ndSHOPT.h"
 
 
 QuoCollector::QuoCollector()
