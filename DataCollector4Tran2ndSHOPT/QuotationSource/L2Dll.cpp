@@ -195,33 +195,26 @@ int	L2Dll::GetData( unsigned char MainType, unsigned char AssiType, unsigned sho
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-int	L2Dll::GetNameTable( unsigned short dwStartNo, tagCcComm_ShNameTable * pValue, int nCount )
+int	L2Dll::GetNameTable( unsigned short dwStartNo, tagCcComm_ShOptNameTable * pValue, int nCount )
 {
 	assert( pValue != NULL && nCount > 0 );
 
-	return GetData( 2, 2, dwStartNo, pValue, nCount*sizeof(tagCcComm_ShNameTable), sizeof(tagCcComm_ShNameTable) );
+	return GetData( 2, 80, dwStartNo, pValue, nCount*sizeof(tagCcComm_ShOptNameTable), sizeof(tagCcComm_ShOptNameTable) );
 }
 
-int	L2Dll::GetNameTableEx(unsigned short dwStartNo, tagCcComm_NameTableEx * pValue, int nCount)
+int	L2Dll::GetNameTableEx(unsigned short dwStartNo, tagCcComm_ShOptNameTableEx * pValue, int nCount)
 {
 	assert( pValue != NULL && nCount > 0 );
 	
-	return GetData( 2, 8, dwStartNo, pValue, nCount*sizeof(tagCcComm_NameTableEx), sizeof(tagCcComm_NameTableEx) );
-}
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-int	L2Dll::GetIndex( unsigned short dwStartNo, tagCcComm_IndexData * pValue, int nCount )
-{
-	assert( pValue != NULL && nCount > 0 );
-
-	return GetData( 2, 6, dwStartNo, pValue, nCount*sizeof(tagCcComm_IndexData), sizeof(tagCcComm_IndexData) );
+	return GetData( 2, 81, dwStartNo, pValue, nCount*sizeof(tagCcComm_ShOptNameTableEx), sizeof(tagCcComm_ShOptNameTableEx) );
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-int L2Dll::GetStock( unsigned short dwStartNo, tagCcComm_StockData5 * pValue, int nCount )
+int L2Dll::GetStock( unsigned short dwStartNo, tagCcComm_ShOptionData * pValue, int nCount )
 {
 	assert( pValue != NULL && nCount > 0 );
 	
-	return GetData( 2, 7, dwStartNo, pValue, nCount*sizeof(tagCcComm_StockData5), sizeof(tagCcComm_StockData5) );
+	return GetData( 2, 82, dwStartNo, pValue, nCount*sizeof(tagCcComm_ShOptionData), sizeof(tagCcComm_ShOptionData) );
 }
 
 unsigned long	L2Dll::GetDataL2Ver()

@@ -134,7 +134,7 @@ typedef struct
 //[2、2]请求上海证券市场L1、L2、深圳证券市场L1、周边市场、上海黄金的名称代码表
 
 //请求：MAIN_FRAME_HEAD | tagCcComm_MarketSubApply
-//应答：MAIN_FRAME_HEAD | tagCcComm_MarketSubResponse | tagCcComm_ShNameTable | tagCcComm_ShNameTable | ...
+//应答：MAIN_FRAME_HEAD | tagCcComm_MarketSubResponse | tagCcComm_ShOptNameTable | tagCcComm_ShOptNameTable | ...
 //注意：该请求必须支持分段请求，在码表过大、服务器发送缓冲过小、通讯带宽过小的情况下仍然能够请求所有的码表。（下同）
 
 typedef struct

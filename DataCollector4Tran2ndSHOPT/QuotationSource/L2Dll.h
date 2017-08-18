@@ -36,16 +36,13 @@ public:
 	int		GetMarketInfo( tagCcComm_MarketInfoHead *, tagCcComm_MarketInfoDetail *, int nCount );
 
 	//获取码表[2,2]
-	int		GetNameTable( unsigned short dwStartNo, tagCcComm_ShNameTable *, int nCount );
+	int		GetNameTable( unsigned short dwStartNo, tagCcComm_ShOptNameTable *, int nCount );
 
 	//获取扩展码表[2,8]
-	int		GetNameTableEx(unsigned short dwStartNo, tagCcComm_NameTableEx * , int nCount);
-
-	//获取指数行情[2,6]
-	int		GetIndex( unsigned short dwStartNo, tagCcComm_IndexData *, int nCount );
+	int		GetNameTableEx(unsigned short dwStartNo, tagCcComm_ShOptNameTableEx * , int nCount);
 
 	//获取个股行情[2,13]
-	int		GetStock( unsigned short dwStartNo, tagCcComm_StockData5 *, int nCount );
+	int		GetStock( unsigned short dwStartNo, tagCcComm_ShOptionData *, int nCount );
 
 	//获取国债利息[2,3]
 	//int		GetGzlx(unsigned short dwStartNo, tagCcComm_Gzlx * , int nCount);

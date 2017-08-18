@@ -110,20 +110,13 @@ public:///< 公共方法函数
 
     void				OnInnerPush( unsigned char MainType, unsigned char ChildType, const char * InBuf, unsigned short InSize, unsigned char marketid );
 
-    void OnPushIndex(const char *buf, size_t len);
     void OnPushStock(const char *buf, size_t len);
-    void OnPushVirtualPrice(const char *buf, size_t len);
-    void OnPushOrderQueue(const char *buf, size_t len);
-    void OnPushOrder(const char *buf, size_t len);
-    void OnPushTrade(const char *buf, size_t len);
     void OnPushMarketInfo(const char *buf, size_t len);
-    void OnPushPreClose(const char *buf, size_t len);
-    void OnPushPreName(const char *buf, size_t len);
 
 private:
 	CriticalObject		m_oLock;				///< 临界区对象
 	WorkStatus			m_oWorkStatus;			///< 工作状态
-	L2Dll				m_oSHL1Dll;				///< 深圳传输模块管理对象
+	L2Dll				m_oSHOPTDll;				///< 深圳传输模块管理对象
 	char*				m_pDataBuff;			///< 数据临时缓存
 };
 
