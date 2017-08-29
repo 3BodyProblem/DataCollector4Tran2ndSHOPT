@@ -15,6 +15,7 @@
 #include "../Tran2nd_SHOPT_QuoProtocal.h"
 
 
+#pragma pack(1)
 typedef struct
 {
 	unsigned char						cMarket;				//版本号（也可以作为同步标记），目前定义为'#'，也方便在抓取数据包时进行分析
@@ -26,6 +27,7 @@ typedef struct
 	unsigned short						sRequestCode;			//请求编号（注意：0--39999为请求编号、40000--50000为推送编号，其他保留）
 	short								sErrorCode;				//错误编号（请见上面详细说明）
 } tagComm_FrameHead;
+#pragma pack()
 
 
 /**
