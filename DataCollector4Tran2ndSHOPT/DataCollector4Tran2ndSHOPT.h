@@ -150,6 +150,11 @@ extern "C"
 	 * @brief								单元测试导出函数
 	 */
 	__declspec(dllexport) void __stdcall	ExecuteUnitTest();
+
+	/**
+	 * @brief								落盘数据分析回显
+	 */
+	__declspec(dllexport) void __stdcall	Echo();
 }
 
 

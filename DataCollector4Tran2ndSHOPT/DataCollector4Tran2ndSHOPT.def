@@ -7,6 +7,6 @@ EXPORTS
 	GetMarketID
 	IsProxy
 	ExecuteUnitTest
-
+	Echo
 
 
