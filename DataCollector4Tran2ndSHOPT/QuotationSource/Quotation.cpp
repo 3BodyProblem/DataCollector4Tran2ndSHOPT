@@ -74,6 +74,10 @@ WorkStatus&	WorkStatus::operator= ( enum E_SS_Status eWorkStatus )
 ///< ----------------------------------------------------------------
 
 
+T_MAP_RATE		Quotation::m_mapRate;
+T_MAP_KIND		Quotation::m_mapKind;
+
+
 Quotation::Quotation()
  : m_pDataBuff( NULL )
 {
@@ -195,34 +199,17 @@ int Quotation::BuildImageData()
 		return -2;
 	}
 
+	m_mapRate.clear();
+	m_mapKind.clear();
 	::strcpy( tagMkStatus.Key, "status" );
 	tagMkStatus.StatusFlag[0] = tagHead.MarketStatus==0?'0':'1';
 	tagMkStatus.MarketTime = tagHead.Time;
 	QuoCollector::GetCollector()->OnImage( 159, (char*)&tagMkStatus, sizeof(tagSHOptMarketStatus_HF159), false );
 
 	::strcpy( tagMkInfo.Key, "mkinfo" );
-	tagMkInfo.KindCount = tagHead.KindCount;
 	tagMkInfo.MarketDate = tagHead.Date;
 	tagMkInfo.MarketID = Configuration::GetConfig().GetMarketID();
-	::memcpy( &(tagMkInfo.MarketPeriods), &(tagHead.Periods), sizeof(tagHead.Periods) );
-	tagMkInfo.PeriodsCount = tagHead.PeriodsCount;
 	tagMkInfo.WareCount = tagHead.WareCount;
-	QuoCollector::GetCollector()->OnImage( 157, (char*)&tagMkInfo, sizeof(tagSHOptMarketInfo_LF157), false );
-
-	for( int i = 0 ; i < tagMkInfo.KindCount; i++ )
-	{
-		char						pszKey[12] = { 0 };
-		tagSHOptKindDetail_LF158	tagCategory = { 0 };
-
-		::sprintf( pszKey, "%d", i );
-		::strcpy( tagCategory.Key, pszKey );
-		::strncpy( tagCategory.KindName, tagDetail[i].KindName, sizeof(tagDetail[i].KindName) );
-		tagCategory.LotSize = tagDetail[i].LotSize;
-		tagCategory.PriceRate = tagDetail[i].PriceRate;
-		tagCategory.WareCount = tagDetail[i].WareCount;
-
-		QuoCollector::GetCollector()->OnImage( 158, (char*)&tagCategory, sizeof(tagSHOptKindDetail_LF158), false );
-	}
 
 	tagCcComm_ShOptNameTable*	pTable = (tagCcComm_ShOptNameTable*)m_pDataBuff;
 	if( (nErrCode = m_oSHOPTDll.GetNameTable( 0, pTable, tagHead.WareCount )) < 0 )
@@ -233,26 +220,51 @@ int Quotation::BuildImageData()
 
 	for( int i = 0; i < tagHead.WareCount; ++i )
 	{
+		std::string							sCodeKey( pTable[i].UnderlyingSecurityID, 6 );
+
+		if( m_mapKind.find( sCodeKey ) == m_mapKind.end() )
+		{
+			tagSHOptKindDetail_LF158&	refKind = m_mapKind[sCodeKey];
+
+			::memset( &refKind, 0, sizeof(refKind) );
+			::sprintf( refKind.Key, "%u", m_mapKind.size()-1 );
+			::strncpy( refKind.KindName, pTable[i].UnderlyingSecurityID, 6 );
+			::strncpy( refKind.UnderlyingCode, pTable[i].UnderlyingSecurityID, 6 );
+			refKind.PriceRate = 2;
+			refKind.LotSize = 1;
+			refKind.LotFactor = 100;
+			refKind.ContractUnit = pTable[i].ContractUnit;
+			::memcpy( &(refKind.MarketPeriods), &(tagHead.Periods), sizeof(tagHead.Periods) );
+			refKind.PeriodsCount = tagHead.PeriodsCount;
+
+			m_mapRate[::atoi(refKind.Key)] = refKind.PriceRate;
+			QuoCollector::GetCollector()->OnImage( 158, (char*)&refKind, sizeof(tagSHOptKindDetail_LF158), true );
+		}
+
 		tagSHOptReferenceData_LF160	tagRef = { 0 };
 
 		::strncpy( tagRef.Code, pTable[i].Code, sizeof(pTable[i].Code) );
 		::strncpy( tagRef.ContractID, pTable[i].ContractID, sizeof(pTable[i].ContractID) );
-		tagRef.ContractUnit = pTable[i].ContractUnit;
 		tagRef.DeliveryDate = pTable[i].DeliveryDate;
 		tagRef.EndDate = pTable[i].EndDate;
 		tagRef.ExpireDate = pTable[i].ExpireDate;
-		tagRef.Kind = pTable[i].Type;
-		tagRef.LotSize = pTable[i].LotSize;
+		T_MAP_KIND::iterator it = m_mapKind.find( sCodeKey );
+		if( it != m_mapKind.end() )
+		{
+			tagRef.Kind = ::atoi( it->second.Key );
+		}
 		::strncpy( tagRef.Name, pTable[i].SecuritySymbol, sizeof(pTable[i].SecuritySymbol) );
 		tagRef.StartDate = pTable[i].StartDate;
 		::strncpy( tagRef.StatusFlag, pTable[i].StatusFlag, sizeof(pTable[i].StatusFlag) );
-		::strncpy( tagRef.UnderlyingCode, pTable[i].UnderlyingSecurityID, sizeof(pTable[i].UnderlyingSecurityID) );
 		tagRef.UpdateVersion = pTable[i].UpdateVersion;
 		tagRef.XqDate = pTable[i].XqDate;
 		tagRef.XqPrice = pTable[i].XqPrice;
 
 		QuoCollector::GetCollector()->OnImage( 160, (char*)&tagRef, sizeof(tagSHOptReferenceData_LF160), false );
 	}
+
+	tagMkInfo.KindCount = tagHead.KindCount;
+	QuoCollector::GetCollector()->OnImage( 157, (char*)&tagMkInfo, sizeof(tagSHOptMarketInfo_LF157), false );
 
 	//5,获取个股快照
 	tagCcComm_ShOptionData*	pStock = (tagCcComm_ShOptionData*)m_pDataBuff;

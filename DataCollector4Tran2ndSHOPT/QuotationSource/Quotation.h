@@ -69,6 +69,8 @@ private:
 
 
 #define			MAX_IMAGE_BUFF				(1024*1024*10)
+typedef			std::map<unsigned int,unsigned int>					T_MAP_RATE;			///< 放大倍数映射表[商品分类,商品放大倍数]
+typedef			std::map<std::string,tagSHOptKindDetail_LF158>		T_MAP_KIND;			///< 根据标的代码映射到对应的分类信息
 
 
 /**
@@ -118,8 +120,10 @@ public:///< 公共方法函数
 private:
 	CriticalObject		m_oLock;				///< 临界区对象
 	WorkStatus			m_oWorkStatus;			///< 工作状态
-	L2Dll				m_oSHOPTDll;				///< 深圳传输模块管理对象
+	L2Dll				m_oSHOPTDll;			///< 深圳传输模块管理对象
 	char*				m_pDataBuff;			///< 数据临时缓存
+	static T_MAP_RATE	m_mapRate;				///< 各分类的放大倍数
+	static T_MAP_KIND	m_mapKind;				///< 分类信息集合
 };
 
 
