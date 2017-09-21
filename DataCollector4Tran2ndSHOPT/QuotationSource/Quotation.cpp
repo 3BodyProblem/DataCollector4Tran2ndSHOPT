@@ -228,9 +228,24 @@ int Quotation::BuildImageData()
 			::sprintf( refKind.Key, "%u", m_mapKind.size()-1 );
 			::strncpy( refKind.KindName, pTable[i].UnderlyingSecurityID, 6 );
 			::strncpy( refKind.UnderlyingCode, pTable[i].UnderlyingSecurityID, 6 );
-			refKind.PriceRate = 2;
-			refKind.LotSize = 1;
-			refKind.LotFactor = 100;
+			if( 2 == pTable[i].Type )
+			{
+				refKind.PriceRate = 4;
+				refKind.LotSize = 10000;
+				refKind.LotFactor = 1;
+			}
+			else if( 1 == pTable[i].Type )
+			{
+				refKind.PriceRate = 3;
+				refKind.LotSize = 1000;
+				refKind.LotFactor = 1;
+			}
+			else
+			{
+				refKind.PriceRate = 3;
+				refKind.LotSize = 1;
+				refKind.LotFactor = 1;
+			}
 			refKind.ContractUnit = pTable[i].ContractUnit;
 			::memcpy( &(refKind.MarketPeriods), &(tagHead.Periods), sizeof(tagHead.Periods) );
 			refKind.PeriodsCount = tagHead.PeriodsCount;
