@@ -7,6 +7,9 @@
 #include "DataCollector4Tran2ndSHOPT.h"
 
 
+const std::string		g_sVersion = "1.0.1";
+
+
 QuoCollector::QuoCollector()
  : m_pCbDataHandle( NULL )
 {
@@ -26,9 +29,11 @@ int QuoCollector::Initialize( I_DataHandle* pIDataHandle )
 	m_pCbDataHandle = pIDataHandle;
 	if( NULL == m_pCbDataHandle )
 	{
-		::printf( "QuoCollector::Initialize() : invalid arguments (NULL)\n" );
+		::printf( "QuoCollector::Initialize() : invalid arguments (NULL), version = %s\n", g_sVersion.c_str() );
 		return -1;
 	}
+
+	QuoCollector::GetCollector()->OnLog( TLV_ERROR, "QuoCollector::Initialize() : [Version] %s", g_sVersion.c_str() );
 
 	if( 0 != (nErrorCode = Configuration::GetConfig().Initialize()) )
 	{
@@ -83,8 +88,8 @@ enum E_SS_Status QuoCollector::GetCollectorStatus( char* pszStatusDesc, unsigned
 	WorkStatus&			refStatus = m_oQuotationData.GetWorkStatus();
 	std::string&		sStatus = WorkStatus::CastStatusStr( (enum E_SS_Status)refStatus );
 
-	nStrLen = ::sprintf( pszStatusDesc, "市场编号=%u,快照路径=%s,连接状态=%s"
-						, refCnf.GetMarketID(), refCnf.GetDumpFolder().c_str(), sStatus.c_str() );
+	nStrLen = ::sprintf( pszStatusDesc, "模块名=中金期货源驱动,Version=%s,市场编号=%u,快照路径=%s,连接状态=%s"
+						, g_sVersion.c_str(), refCnf.GetMarketID(), refCnf.GetDumpFolder().c_str(), sStatus.c_str() );
 
 	return refStatus;
 }
