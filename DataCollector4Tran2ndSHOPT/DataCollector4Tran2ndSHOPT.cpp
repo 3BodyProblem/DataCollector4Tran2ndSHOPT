@@ -65,7 +65,7 @@ I_DataHandle* QuoCollector::operator->()
 
 void QuoCollector::Halt()
 {
-//	m_oQuotationData.Destroy();
+	m_oQuotationData.Release();
 }
 
 int QuoCollector::RecoverQuotation()
